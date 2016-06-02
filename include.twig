@@ -127,6 +127,8 @@ Name | In | Type | Description
 {% endfor %}
 
 {% endif %}{#action.parameters#}
+
+{% if action.responses %}
 ### Responses
 Http code | Type | Description
 --- | --- | ---
@@ -138,6 +140,18 @@ Http code | Type | Description
 {% endif %}{#data.schema#}
 {{ status }} | {{ model }} | {{ data.description }}
 {% endfor %}{#status, data  in action.responses#}
+{% endif %}{#action.responses#}
+
+{% if action['x-events'] %}
+{% set events = action['x-events']|newParameters %}
+### Events
+Name | In | Type | Description
+--- | --- | --- | ---
+{% for event in  events %}
+    {{ event.name }}{% if event.required %}<b title="required">&nbsp;*&nbsp;</b>{% endif %} | {{ event.in }} | {{ event }} | {{ event.description }}
+{% endfor %}
+{% endif %}{#action.x-events#}
+
 
 {% endfor %}{# httpAction, action in actions #}
 {% endmacro %}

@@ -1,3 +1,7 @@
+# Changes in this fork
+- Added API description text
+- Added support for an `x-events` swagger extension
+
 # How to build
 
 - First run `./get_deps` once to get composer and box if needed
