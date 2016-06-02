@@ -1,3 +1,8 @@
+# How to build
+
+- First run `./get_deps` once to get composer and box if needed
+- Then `./build.sh`
+
 # How to create html docs using swagger
 
 * Store your api documentation with your code.
