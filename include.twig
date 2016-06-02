@@ -1,5 +1,12 @@
 {% macro headBlock(api) %}
 # {{ api.info.title }} {{ api.info.version }}
+
+{% if api.info.description %}
+
+{{ api.info.description }}
+
+{% endif %}{#api.info.description#}
+
 {% if api.consumes %}
 > ### Consumes  
 {% for contentType in api.consumes %}
