@@ -86,17 +86,17 @@ Content-Type: {{ api.consumes[0]|default('application/json') }}
 {% endif %}
 ```
 {% set events = action['x-events']|newParameters %}
+{% if events %}
+```json
 {% for event in events %}
 {% set example = event.schema.example %}
 {% if example %}
-```
-Event: {{ event.name }}
-```
-```json
+
 {{ example|json_encode(constant('JSON_PRETTY_PRINT'))|raw }}
-```
 {% endif %}
 {% endfor %}
+```
+{% endif %}
 {% endmacro %}
 
 {# #################################################################################### #}
