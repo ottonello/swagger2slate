@@ -8,9 +8,9 @@
 {% endif %}{#api.info.description#}
 
 {% if api.consumes %}
-> ### Consumes  
+> ### Consumes
 {% for contentType in api.consumes %}
-> `{{ contentType }}`  
+> `{{ contentType }}`
 {% endfor %}
 
 {% endif %}{#api.consumes#}
@@ -46,10 +46,10 @@ Type |{% if securityScheme.type == 'apiKey' %} Name | In |{% endif %} Descriptio
 
 {{ model.description }}
 
-{% endif %}	
+{% endif %}
 ### Fields
 {{ _self.renderFields(model) }}
-	
+
 {% endfor %}{# definition #}
 {% endmacro %}
 
@@ -85,6 +85,18 @@ Content-Type: {{ api.consumes[0]|default('application/json') }}
 {{ body|json_encode(constant('JSON_PRETTY_PRINT'))|raw }}
 {% endif %}
 ```
+{% set events = action['x-events']|newParameters %}
+{% for event in events %}
+{% set example = event.schema.example %}
+{% if example %}
+```
+Event: {{ event.name }}
+```
+```json
+{{ example|json_encode(constant('JSON_PRETTY_PRINT'))|raw }}
+```
+{% endif %}
+{% endfor %}
 {% endmacro %}
 
 {# #################################################################################### #}
@@ -93,14 +105,14 @@ Content-Type: {{ api.consumes[0]|default('application/json') }}
 {% for httpAction, action in actions %}
 ## {{ action.summary|capitalize }}
 
-{{ _self.request(api, httpAction, action, endPoint) }}	
+{{ _self.request(api, httpAction, action, endPoint) }}
 {% for code, response in action.responses %}
 ```http
 HTTP/1.1 {{ code == "default" ? "[default]" : code }} {{ code|textStatus }}
 {% for contentType, response in response.examples|slice(0,1) %}
 Content-Type: {{ contentType }}
 
-{{ response|json_encode(constant('JSON_PRETTY_PRINT') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}	
+{{ response|json_encode(constant('JSON_PRETTY_PRINT') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}
 {% else %}
 {% if response.schema %}
 Content-Type: {{ api.produces[0]|default('application/json') }}
